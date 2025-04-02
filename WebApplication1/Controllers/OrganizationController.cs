@@ -60,7 +60,7 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    return ValidationProblem();
+                    return Problem();
                 }
             }
             return NotFound();
