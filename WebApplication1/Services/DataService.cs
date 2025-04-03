@@ -25,22 +25,35 @@ namespace WebApplication1.Services
         {
             try
             {
-                await _dataContext.Events.AddAsync(item);
-                await _dataContext.SaveChangesAsync();
-                return true;
+                var id = item.OrganizationId == 0 ? 1 : item.OrganizationId;
+                var org = await _dataContext.Organizations.FirstOrDefaultAsync(x => x.OrganizationId == id);
+                if (org != null)
+                {
+                    item.Organization = org;
+                    await _dataContext.Events.AddAsync(item);
+                    await _dataContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
             }
             catch 
             {
                 return false;
             }
         }
-        public async Task<bool> UpdateEventAsync(Event item)
+        public async Task<bool> UpdateEventAsync(int id,Event data)
         {
             try
             {
-                _dataContext.Events.Update(item);
-                await _dataContext.SaveChangesAsync();
-                return true;
+                var eventForUpdating = await GetEventByIdAsync(id);
+                if (eventForUpdating != null)
+                {
+                    eventForUpdating.UpdateEvent(data);
+                    _dataContext.Events.Update(eventForUpdating);
+                    await _dataContext.SaveChangesAsync();
+                    return true;
+                }
+                return false;
             }
             catch
             {

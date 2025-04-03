@@ -12,7 +12,7 @@ using WebApplication1.Contexts;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250402122139_Init")]
+    [Migration("20250403193756_Init")]
     partial class Init
     {
         /// <inheritdoc />

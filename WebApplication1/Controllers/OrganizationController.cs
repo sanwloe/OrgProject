@@ -47,23 +47,17 @@ namespace WebApplication1.Controllers
             }
         }
         [HttpPut("events/{id}")]
-        public async Task<ActionResult<IEnumerable<Event>>> UpdateEventAsync(int id,[FromBody] Event @event)
+        public async Task<ActionResult<IEnumerable<Event>>> UpdateEventAsync(int id, [FromBody] Event @event)
         {
-            var eventForUpdating = await _dataService.GetEventByIdAsync(id);
-            if(eventForUpdating!=null)
+            var isSuccess = await _dataService.UpdateEventAsync(id, @event);
+            if (isSuccess)
             {
-                eventForUpdating.UpdateEvent(@event);
-                var isSuccess = await _dataService.UpdateEventAsync(eventForUpdating);
-                if(isSuccess)
-                {
-                    return Ok(isSuccess);
-                }
-                else
-                {
-                    return Problem();
-                }
+                return Ok(isSuccess);
             }
-            return NotFound();
+            else
+            {
+                return Problem();
+            }
         }
         [HttpDelete("events/{id}")]
         public async Task<ActionResult> RemoveEventAsync(int id)

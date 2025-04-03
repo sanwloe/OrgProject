@@ -7,7 +7,6 @@ namespace WebApplication1.Model
     {
         [Key]
         public int OrganizationId { get; set; }
-        [Required]
         public string Name { get; set; } = string.Empty;
     }
 }
